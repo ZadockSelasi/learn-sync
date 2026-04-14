@@ -132,9 +132,9 @@ export default function Landing() {
 
       <main>
         {/* 2. Hero Section */}
-        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden z-0">
           {/* Fading Background Images */}
-          <div className="absolute inset-0 -z-20 overflow-hidden bg-slate-100 dark:bg-black">
+          <div className="absolute inset-0 -z-30 overflow-hidden bg-slate-100 dark:bg-black">
             {heroImages.map((src, index) => (
               <div
                 key={src}
@@ -146,7 +146,7 @@ export default function Landing() {
             ))}
           </div>
           {/* Overlay to blend with theme */}
-          <div className="absolute inset-0 -z-20 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-[2px] transition-colors duration-300 pointer-events-none" />
+          <div className="absolute inset-0 -z-20 bg-slate-50/70 dark:bg-slate-950/80 backdrop-blur-[2px] transition-colors duration-300 pointer-events-none" />
 
           {/* Background Gradients */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden -z-10 pointer-events-none">
