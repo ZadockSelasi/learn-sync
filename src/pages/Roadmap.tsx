@@ -89,9 +89,10 @@ export default function Roadmap() {
       setCompletedSkills([]);
       setXp(0);
       fetchRoadmaps();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to generate roadmap", error);
-      alert("Failed to generate roadmap. Please try again.");
+      const errorMessage = error.message || "Unknown error";
+      alert(`Failed to generate roadmap: ${errorMessage}\n\nPlease check your Gemini API key in Vercel settings and ensure you have redeployed.`);
     } finally {
       setLoading(false);
     }

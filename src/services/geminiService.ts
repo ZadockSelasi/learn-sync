@@ -1,6 +1,14 @@
 import { GoogleGenAI, Type } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || 'missing_api_key' });
+const genAIConfig = { 
+  apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' 
+};
+
+if (!genAIConfig.apiKey || genAIConfig.apiKey === 'your_gemini_api_key_here') {
+  console.warn("VITE_GEMINI_API_KEY is missing or using placeholder. Check your environment variables.");
+}
+
+const ai = new GoogleGenAI(genAIConfig);
 
 export const generateCareerRoadmap = async (careerGoal: string, profile?: any) => {
   let prompt = `Generate a detailed career roadmap for someone who wants to become a "${careerGoal}".`;
