@@ -1,0 +1,40 @@
+import React from 'react';
+
+export function Logo({ className = "w-8 h-8" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      {/* Book Left Page */}
+      <path d="M50 75 Q30 60 10 70 L20 35 Q40 30 50 50 Z" className="fill-indigo-900 dark:fill-indigo-400" />
+      
+      {/* Book Right Page */}
+      <path d="M50 75 Q70 60 90 70 L80 35 Q60 30 50 50 Z" className="fill-indigo-800 dark:fill-indigo-500" />
+      
+      {/* Book Bottom Flaps */}
+      <path d="M10 76 Q30 66 50 82 Q30 74 10 82 Z" className="fill-indigo-700 dark:fill-indigo-300" />
+      <path d="M90 76 Q70 66 50 82 Q70 74 90 82 Z" className="fill-indigo-600 dark:fill-indigo-400" />
+
+      {/* Person Head */}
+      <circle cx="45" cy="25" r="6" className="fill-teal-500 dark:fill-teal-400" />
+      
+      {/* Arrow Body */}
+      <path 
+        d="M 45 36 C 30 45, 35 65, 45 68 C 55 70, 65 50, 75 35 L 82 24" 
+        stroke="currentColor" 
+        strokeWidth="8" 
+        strokeLinecap="round" 
+        fill="none" 
+        className="text-teal-500 dark:text-teal-400" 
+      />
+      
+      {/* Arrow Head */}
+      <path 
+        d="M 70 20 L 92 5 L 88 28 Z" 
+        fill="currentColor" 
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        className="text-teal-500 dark:text-teal-400" 
+      />
+    </svg>
+  );
+}

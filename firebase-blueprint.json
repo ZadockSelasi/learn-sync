@@ -1,0 +1,176 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the Career Learning OS",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "Roadmap": {
+      "title": "Roadmap",
+      "description": "A generated career roadmap for a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "careerGoal": { "type": "string" },
+        "roadmapData": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "careerGoal", "roadmapData", "createdAt"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "An AI-generated quiz",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "questions": { "type": "string" },
+        "score": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subject", "questions", "createdAt"]
+    },
+    "FlashcardSet": {
+      "title": "FlashcardSet",
+      "description": "A set of AI-generated flashcards",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "cards": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subject", "cards", "createdAt"]
+    },
+    "StudyTask": {
+      "title": "StudyTask",
+      "description": "A task in the study planner",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "date", "completed", "createdAt"]
+    },
+    "Exam": {
+      "title": "Exam",
+      "description": "An upcoming exam",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "courseName": { "type": "string" },
+        "examDate": { "type": "string", "format": "date-time" },
+        "examTime": { "type": "string" },
+        "semester": { "type": "string" },
+        "priority": { "type": "string" },
+        "notes": { "type": "string" },
+        "targetGrade": { "type": "string" },
+        "color": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "courseName", "examDate", "examTime", "createdAt"]
+    },
+    "StudySession": {
+      "title": "StudySession",
+      "description": "A planned study session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "subject": { "type": "string" },
+        "topic": { "type": "string" },
+        "goal": { "type": "string" },
+        "sessionType": { "type": "string" },
+        "status": { "type": "string" },
+        "isRecurring": { "type": "boolean" },
+        "dayOfWeek": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "startTime", "endTime", "subject", "status", "createdAt"]
+    },
+    "CareerProfile": {
+      "title": "CareerProfile",
+      "description": "A user's career profile",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "school": { "type": "string" },
+        "level": { "type": "string" },
+        "program": { "type": "string" },
+        "skills": { "type": "string" },
+        "interests": { "type": "string" },
+        "dreamJob": { "type": "string" },
+        "preferredIndustries": { "type": "string" },
+        "preferredLocations": { "type": "string" },
+        "portfolioUrl": { "type": "string" },
+        "bio": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "StickyNote": {
+      "title": "StickyNote",
+      "description": "A user's sticky note",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "content": { "type": "string" },
+        "color": { "type": "string" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "content", "color", "x", "y", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/careerProfiles/{userId}": {
+      "schema": "CareerProfile",
+      "description": "User career profiles"
+    },
+    "/roadmaps/{roadmapId}": {
+      "schema": "Roadmap",
+      "description": "User career roadmaps"
+    },
+    "/quizzes/{quizId}": {
+      "schema": "Quiz",
+      "description": "User generated quizzes"
+    },
+    "/flashcards/{flashcardId}": {
+      "schema": "FlashcardSet",
+      "description": "User generated flashcards"
+    },
+    "/tasks/{taskId}": {
+      "schema": "StudyTask",
+      "description": "User study tasks"
+    },
+    "/exams/{examId}": {
+      "schema": "Exam",
+      "description": "User exams"
+    },
+    "/studySessions/{sessionId}": {
+      "schema": "StudySession",
+      "description": "User study sessions"
+    },
+    "/stickyNotes/{noteId}": {
+      "schema": "StickyNote",
+      "description": "User sticky notes"
+    }
+  }
+}
