@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || 'missing_api_key_check_env' });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || 'missing_api_key' });
 
 export const generateCareerRoadmap = async (careerGoal: string, profile?: any) => {
   let prompt = `Generate a detailed career roadmap for someone who wants to become a "${careerGoal}".`;
