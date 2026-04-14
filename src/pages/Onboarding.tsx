@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import { logActivity } from '../services/activityService';
 import { motion, AnimatePresence } from 'motion/react';
 import { BookOpen, Target, Briefcase, MapPin, Loader2, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { getUniversityProgramsAndLevels } from '../services/geminiService';
@@ -274,6 +275,7 @@ export default function Onboarding() {
         updatedAt: new Date().toISOString(),
         createdAt: new Date().toISOString()
       });
+      await logActivity(user.uid, user.email, 'task_completed', { type: 'onboarding_complete', school: formData.school, program: formData.program });
       await checkOnboardingStatus(user.uid);
       navigate('/dashboard', { replace: true });
     } catch (error) {

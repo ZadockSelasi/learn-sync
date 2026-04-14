@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, addDoc, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { logActivity } from '../services/activityService';
 import { generateQuiz } from '../services/geminiService';
 import { motion } from 'motion/react';
 import { HelpCircle, Loader2, FileText, CheckCircle2, XCircle, UploadCloud, File as FileIcon } from 'lucide-react';
@@ -104,6 +105,12 @@ export default function Quiz() {
         questions: JSON.stringify(activeQuiz.questions),
         score: currentScore,
         createdAt: new Date().toISOString()
+      });
+      
+      await logActivity(user.uid, user.email, 'quiz_completed', { 
+        subject: activeQuiz.subject, 
+        score: currentScore,
+        totalQuestions: activeQuiz.questions.length 
       });
     } catch (error) {
       console.error("Error saving quiz score", error);

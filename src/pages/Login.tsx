@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { signInWithGoogle, auth } from '../firebase';
+import { logActivity } from '../services/activityService';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from 'firebase/auth';
 import { Brain, Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -31,7 +32,10 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     try {
       setError('');
-      await signInWithGoogle();
+      const userResult = await signInWithGoogle();
+      if (userResult) {
+        await logActivity(userResult.uid, userResult.email, 'login', { method: 'google' });
+      }
       // AuthContext will handle the redirect via the useEffect above
     } catch (error: any) {
       console.error('Failed to sign in with Google', error);
@@ -53,9 +57,11 @@ export default function Login() {
         if (fullName.trim()) {
           await updateProfile(userCredential.user, { displayName: fullName.trim() });
         }
+        await logActivity(userCredential.user.uid, email, 'login', { method: 'email', type: 'signup' });
         navigate('/onboarding', { replace: true });
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await logActivity(userCredential.user.uid, email, 'login', { method: 'email', type: 'signin' });
         // AuthContext will handle the redirect via the useEffect above
       }
     } catch (error: any) {

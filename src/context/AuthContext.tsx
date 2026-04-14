@@ -7,6 +7,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAuthReady: boolean;
+  userRole: 'admin' | 'user';
+  userStatus: 'active' | 'suspended';
   hasCompletedOnboarding: boolean | null;
   checkOnboardingStatus: (uid?: string) => Promise<void>;
 }
@@ -15,6 +17,8 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   isAuthReady: false,
+  userRole: 'user',
+  userStatus: 'active',
   hasCompletedOnboarding: null,
   checkOnboardingStatus: async () => {},
 });
@@ -25,6 +29,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userStatus, setUserStatus] = useState<'active' | 'suspended'>('active');
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
 
   const checkOnboardingStatus = async (uid?: string) => {
@@ -54,14 +60,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         if (!userSnap.exists()) {
           try {
-            await setDoc(userRef, {
+            const userData = {
               uid: currentUser.uid,
               email: currentUser.email,
               displayName: currentUser.displayName,
-              createdAt: new Date().toISOString()
-            });
+              photoURL: currentUser.photoURL,
+              role: 'user', // Default role
+              status: 'active', // Default status
+              createdAt: new Date().toISOString(),
+              lastLogin: new Date().toISOString(),
+              loginMethod: currentUser.providerData[0]?.providerId === 'google.com' ? 'google' : 'email'
+            };
+            await setDoc(userRef, userData);
+            setUserRole('user');
+            setUserStatus('active');
           } catch (error) {
             console.error("Error creating user document", error);
+          }
+        } else {
+          const data = userSnap.data();
+          setUserRole(data.role || 'user');
+          setUserStatus(data.status || 'active');
+          
+          // Update last login
+          try {
+            await setDoc(userRef, { 
+              lastLogin: new Date().toISOString(),
+              loginMethod: currentUser.providerData[0]?.providerId === 'google.com' ? 'google' : 'email'
+            }, { merge: true });
+          } catch (e) {
+            console.error("Error updating last login", e);
           }
         }
 
@@ -69,6 +97,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await checkOnboardingStatus(currentUser.uid);
       } else {
         setHasCompletedOnboarding(null);
+        setUserRole('user');
+        setUserStatus('active');
       }
       
       setLoading(false);
@@ -79,7 +109,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAuthReady, hasCompletedOnboarding, checkOnboardingStatus }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      isAuthReady, 
+      userRole, 
+      userStatus, 
+      hasCompletedOnboarding, 
+      checkOnboardingStatus 
+    }}>
       {children}
     </AuthContext.Provider>
   );

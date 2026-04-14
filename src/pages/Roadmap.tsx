@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, addDoc, query, where, getDocs, orderBy, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { logActivity } from '../services/activityService';
 import { generateCareerRoadmap } from '../services/geminiService';
 import { motion } from 'motion/react';
 import { Target, Loader2, ChevronRight, CheckCircle2, BookOpen, Award, Info, PlayCircle, Star } from 'lucide-react';
@@ -81,6 +82,8 @@ export default function Roadmap() {
         createdAt: new Date().toISOString()
       });
       
+      await logActivity(user.uid, user.email, 'roadmap_created', { careerGoal: goal });
+      
       setActiveRoadmap(roadmapData);
       setActiveRoadmapDocId(docRef.id);
       setCompletedSkills([]);
@@ -109,6 +112,13 @@ export default function Roadmap() {
       await updateDoc(docRef, {
         completedSkills: newCompletedSkills,
         xp: newXp
+      });
+      
+      await logActivity(user.uid, user.email, 'task_completed', { 
+        type: 'skill_completion', 
+        skill, 
+        roadmapId: activeRoadmapDocId,
+        newXp 
       });
     } catch (error) {
       console.error("Error updating progress:", error);

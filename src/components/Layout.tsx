@@ -16,12 +16,13 @@ import {
   Briefcase,
   StickyNote,
   Menu,
-  X
+  X,
+  ShieldCheck
 } from 'lucide-react';
 import clsx from 'clsx';
 
 export const Layout: React.FC = () => {
-  const { user } = useAuth();
+  const { user, userRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

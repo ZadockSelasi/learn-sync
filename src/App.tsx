@@ -8,7 +8,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminRoute } from './components/AdminRoute';
 import { Layout } from './components/Layout';
+import { AdminLayout } from './components/AdminLayout';
 
 // Pages
 import Landing from './pages/Landing';
@@ -28,6 +30,12 @@ import CareerCompanies from './pages/CareerCompanies';
 import CVBuilder from './pages/CVBuilder';
 import SkillGapAnalysis from './pages/SkillGapAnalysis';
 import StickyNotes from './pages/StickyNotes';
+
+// Admin Pages
+import AdminOverview from './pages/Admin/AdminOverview';
+import AdminUsers from './pages/Admin/AdminUsers';
+import AdminLogs from './pages/Admin/AdminLogs';
+import AdminSettings from './pages/Admin/AdminSettings';
 
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
   constructor(props: {children: React.ReactNode}) {
@@ -63,7 +71,7 @@ export default function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               
-              {/* Protected Routes */}
+              {/* Learner Protected Routes */}
               <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/roadmap" element={<Roadmap />} />
@@ -79,6 +87,14 @@ export default function App() {
                 <Route path="/career/skill-gap" element={<SkillGapAnalysis />} />
                 <Route path="/notes" element={<StickyNotes />} />
                 <Route path="/settings" element={<Settings />} />
+              </Route>
+
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                <Route index element={<AdminOverview />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="logs" element={<AdminLogs />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
 
               {/* Onboarding Route (Protected but no Layout) */}
