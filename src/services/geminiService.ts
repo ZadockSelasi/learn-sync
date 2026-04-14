@@ -48,7 +48,7 @@ export const generateCareerRoadmap = async (careerGoal: string, profile?: any) =
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -117,7 +117,7 @@ export const generateQuiz = async (subject: string, content: string, file?: { da
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: { parts },
       config: {
         responseMimeType: 'application/json',
@@ -173,7 +173,7 @@ export const generateFlashcards = async (subject: string, content: string, file?
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: { parts },
       config: {
         responseMimeType: 'application/json',
@@ -214,7 +214,7 @@ export const generateStudyPlan = async (weakSubjects: string[], availableHours: 
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -261,7 +261,7 @@ export const getUniversityProgramsAndLevels = async (universityName: string) => 
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -293,7 +293,7 @@ export const generateCV = async (cvData: any, targetJob: string) => {
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -457,7 +457,7 @@ export const generateSkillGapAnalysis = async (profile: any, targetJob: string) 
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -511,7 +511,7 @@ export const generateSkillDetails = async (skill: string, careerGoal: string) =>
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
