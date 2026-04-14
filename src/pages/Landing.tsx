@@ -14,11 +14,27 @@ export default function Landing() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+
+  const heroImages = [
+    "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    const imageInterval = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(imageInterval);
+    };
   }, []);
 
   const navLinks = [
@@ -117,11 +133,26 @@ export default function Landing() {
       <main>
         {/* 2. Hero Section */}
         <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Fading Background Images */}
+          <div className="absolute inset-0 -z-20 overflow-hidden bg-slate-100 dark:bg-black">
+            {heroImages.map((src, index) => (
+              <div
+                key={src}
+                className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out ${
+                  index === currentHeroImage ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                }`}
+                style={{ backgroundImage: `url(${src})` }}
+              />
+            ))}
+          </div>
+          {/* Overlay to blend with theme */}
+          <div className="absolute inset-0 -z-20 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-[2px] transition-colors duration-300 pointer-events-none" />
+
           {/* Background Gradients */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden -z-10 pointer-events-none">
-            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 dark:bg-indigo-900/20 blur-[120px]" />
-            <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-400/20 dark:bg-purple-900/20 blur-[120px]" />
-            <div className="absolute -bottom-[10%] left-[20%] w-[60%] h-[40%] rounded-full bg-emerald-400/10 dark:bg-emerald-900/10 blur-[120px]" />
+            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/30 dark:bg-indigo-900/40 blur-[120px]" />
+            <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-400/30 dark:bg-purple-900/40 blur-[120px]" />
+            <div className="absolute -bottom-[10%] left-[20%] w-[60%] h-[40%] rounded-full bg-emerald-400/20 dark:bg-emerald-900/20 blur-[120px]" />
           </div>
 
           <div className="max-w-7xl mx-auto text-center">
