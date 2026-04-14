@@ -81,9 +81,10 @@ export default function Flashcards() {
         cards: JSON.stringify(flashcardData.cards),
         createdAt: new Date().toISOString()
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to generate flashcards", error);
-      alert("Failed to generate flashcards. Please try again.");
+      const errorMessage = error.message || "Unknown error";
+      alert(`Failed to generate flashcards: ${errorMessage}\n\nPlease check your Gemini API key in Vercel settings.`);
     } finally {
       setLoading(false);
     }

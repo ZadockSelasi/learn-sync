@@ -77,9 +77,10 @@ export default function Quiz() {
       setSubject('');
       setContent('');
       clearFile();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to generate quiz", error);
-      alert("Failed to generate quiz. Please try again.");
+      const errorMessage = error.message || "Unknown error";
+      alert(`Failed to generate quiz: ${errorMessage}\n\nPlease check your Gemini API key in Vercel settings.`);
     } finally {
       setLoading(false);
     }
